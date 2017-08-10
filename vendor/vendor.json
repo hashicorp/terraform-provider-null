@@ -396,14 +396,6 @@
 			"versionExact": "v0.10.0"
 		},
 		{
-			"checksumSHA1": "zx5DLo5aV0xDqxGTzSibXg7HHAA=",
-			"path": "github.com/hashicorp/terraform/helper/acctest",
-			"revision": "2041053ee9444fa8175a298093b55a89586a1823",
-			"revisionTime": "2017-08-02T18:39:14Z",
-			"version": "v0.10.0",
-			"versionExact": "v0.10.0"
-		},
-		{
 			"checksumSHA1": "Vbo55GDzPgG/L/+W2pcvDhxrPZc=",
 			"path": "github.com/hashicorp/terraform/helper/experiment",
 			"revision": "2041053ee9444fa8175a298093b55a89586a1823",
@@ -546,24 +538,6 @@
 			"revisionTime": "2017-07-23T04:49:35Z"
 		},
 		{
-			"checksumSHA1": "MlEHIE/60sB86Lmf0MPTIXHzKzE=",
-			"path": "golang.org/x/crypto/curve25519",
-			"revision": "a48ac81e47fd6f9ed1258f3b60ae9e75f93cb7ed",
-			"revisionTime": "2017-07-06T12:31:36Z"
-		},
-		{
-			"checksumSHA1": "i3dNaI+oCYeDGIsNj7LwecTsIAs=",
-			"path": "golang.org/x/crypto/ed25519",
-			"revision": "a48ac81e47fd6f9ed1258f3b60ae9e75f93cb7ed",
-			"revisionTime": "2017-07-06T12:31:36Z"
-		},
-		{
-			"checksumSHA1": "LXFcVx8I587SnWmKycSDEq9yvK8=",
-			"path": "golang.org/x/crypto/ed25519/internal/edwards25519",
-			"revision": "a48ac81e47fd6f9ed1258f3b60ae9e75f93cb7ed",
-			"revisionTime": "2017-07-06T12:31:36Z"
-		},
-		{
 			"checksumSHA1": "IIhFTrLlmlc6lEFSitqi4aw2lw0=",
 			"path": "golang.org/x/crypto/openpgp",
 			"revision": "b176d7def5d71bdd214203491f89843ed217f420",
@@ -598,12 +572,6 @@
 			"path": "golang.org/x/crypto/openpgp/s2k",
 			"revision": "b176d7def5d71bdd214203491f89843ed217f420",
 			"revisionTime": "2017-07-23T04:49:35Z"
-		},
-		{
-			"checksumSHA1": "9/M2/OoyFOazUokY40my+psi4IM=",
-			"path": "golang.org/x/crypto/ssh",
-			"revision": "a48ac81e47fd6f9ed1258f3b60ae9e75f93cb7ed",
-			"revisionTime": "2017-07-06T12:31:36Z"
 		},
 		{
 			"checksumSHA1": "vqc3a+oTUGX8PmD0TS+qQ7gmN8I=",
