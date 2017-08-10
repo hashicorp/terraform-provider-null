@@ -32,6 +32,9 @@ type Plan struct {
 	Vars    map[string]interface{}
 	Targets []string
 
+	TerraformVersion string
+	ProviderSHA256s  map[string][]byte
+
 	// Backend is the backend that this plan should use and store data with.
 	Backend *BackendState
 
@@ -47,15 +50,24 @@ type Plan struct {
 // it must be Equal to the state stored in plan, but may have a newer
 // serial.
 func (p *Plan) Context(opts *ContextOpts) (*Context, error) {
+	var err error
+	opts, err = p.contextOpts(opts)
+	if err != nil {
+		return nil, err
+	}
+	return NewContext(opts)
+}
+
+// contextOpts mutates the given base ContextOpts in place to use input
+// objects obtained from the receiving plan.
+func (p *Plan) contextOpts(base *ContextOpts) (*ContextOpts, error) {
+	opts := base
+
 	opts.Diff = p.Diff
 	opts.Module = p.Module
 	opts.Targets = p.Targets
+	opts.ProviderSHA256s = p.ProviderSHA256s
 
-	// If we are given a state in "base" then we'll use it, and otherwise
-	// we'll fall back on the state stashed in the plan. We do this because
-	// sometimes the caller has already persisted the plan's state by the
-	// time we get here, and we don't want to regress to the plan-time state
-	// serial if so.
 	if opts.State == nil {
 		opts.State = p.State
 	} else if !opts.State.Equal(p.State) {
@@ -67,7 +79,15 @@ func (p *Plan) Context(opts *ContextOpts) (*Context, error) {
 		// the state, there is little chance that these aren't actually equal.
 		// Log the error condition for reference, but continue with the state
 		// we have.
-		log.Println("[ERROR] plan state and ContextOpts state are not equal")
+		log.Println("[WARNING] Plan state and ContextOpts state are not equal")
+	}
+
+	thisVersion := VersionString()
+	if p.TerraformVersion != "" && p.TerraformVersion != thisVersion {
+		return nil, fmt.Errorf(
+			"plan was created with a different version of Terraform (created with %s, but running %s)",
+			p.TerraformVersion, thisVersion,
+		)
 	}
 
 	opts.Variables = make(map[string]interface{})
@@ -75,7 +95,7 @@ func (p *Plan) Context(opts *ContextOpts) (*Context, error) {
 		opts.Variables[k] = v
 	}
 
-	return NewContext(opts)
+	return opts, nil
 }
 
 func (p *Plan) String() string {
@@ -109,7 +129,7 @@ func (p *Plan) init() {
 // the ability in the future to change the file format if we want for any
 // reason.
 const planFormatMagic = "tfplan"
-const planFormatVersion byte = 1
+const planFormatVersion byte = 2
 
 // ReadPlan reads a plan structure out of a reader in the format that
 // was written by WritePlan.
