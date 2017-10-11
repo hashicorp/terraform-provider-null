@@ -27,15 +27,15 @@ data "null_data_source" "values" {
 resource "aws_elb" "main" {
   # ...
 
-  instances = "${data.null_data_source.values["all_server_ids"]}"
+  instances = "${data.null_data_source.values.outputs["all_server_ids"]}"
 }
 
 output "all_server_ids" {
-  value = "${data.null_data_source.values["all_server_ids"]}"
+  value = "${data.null_data_source.values.outputs["all_server_ids"]}"
 }
 
 output "all_server_ips" {
-  value = "${data.null_data_source.values["all_server_ips"]}"
+  value = "${data.null_data_source.values.outputs["all_server_ips"]}"
 }
 
 # ... (other uses of the values) ...
