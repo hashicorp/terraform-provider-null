@@ -58,7 +58,10 @@ The following arguments are supported:
 
 * `triggers` - (Optional) A map of arbitrary strings that, when changed, will
   force the null resource to be replaced, re-running any associated
-provisioners.
+  provisioners.
+* `values` - (Optional) A map of values that can be added to the null resource.
+* `inputs` - (Optional) A map of values that are copied to `outputs` when the
+  resource is created.
 
 ## Attributes Reference
 
@@ -67,3 +70,4 @@ The following attributes are exported:
 * `id` - An arbitrary value that changes each time the resource is replaced.
   Can be used to cause other resources to be updated or replaced in response
   to `null_resource` changes.
+* `outputs` - A copy of the `inputs` argument at creation time.
