@@ -1,9 +1,9 @@
 ---
 layout: "null"
-page_title: "Null Resource"
+page_title: "Null Data Source"
 sidebar_current: "docs-data-source"
 description: |-
-  A resource that does nothing.
+  A data source that does nothing.
 ---
 
 # Null Resource
