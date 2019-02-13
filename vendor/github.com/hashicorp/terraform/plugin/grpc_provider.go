@@ -402,6 +402,8 @@ func (p *GRPCProvider) PlanResourceChange(r providers.PlanResourceChangeRequest)
 
 	resp.PlannedPrivate = protoResp.PlannedPrivate
 
+	resp.LegacyTypeSystem = protoResp.LegacyTypeSystem
+
 	return resp
 }
 
@@ -420,11 +422,17 @@ func (p *GRPCProvider) ApplyResourceChange(r providers.ApplyResourceChangeReques
 		resp.Diagnostics = resp.Diagnostics.Append(err)
 		return resp
 	}
+	configMP, err := msgpack.Marshal(r.Config, resSchema.Block.ImpliedType())
+	if err != nil {
+		resp.Diagnostics = resp.Diagnostics.Append(err)
+		return resp
+	}
 
 	protoReq := &proto.ApplyResourceChange_Request{
 		TypeName:       r.TypeName,
 		PriorState:     &proto.DynamicValue{Msgpack: priorMP},
 		PlannedState:   &proto.DynamicValue{Msgpack: plannedMP},
+		Config:         &proto.DynamicValue{Msgpack: configMP},
 		PlannedPrivate: r.PlannedPrivate,
 	}
 
@@ -447,13 +455,13 @@ func (p *GRPCProvider) ApplyResourceChange(r providers.ApplyResourceChangeReques
 	}
 	resp.NewState = state
 
+	resp.LegacyTypeSystem = protoResp.LegacyTypeSystem
+
 	return resp
 }
 
 func (p *GRPCProvider) ImportResourceState(r providers.ImportResourceStateRequest) (resp providers.ImportResourceStateResponse) {
 	log.Printf("[TRACE] GRPCProvider: ImportResourceState")
-
-	resSchema := p.getResourceSchema(r.TypeName)
 
 	protoReq := &proto.ImportResourceState_Request{
 		TypeName: r.TypeName,
@@ -473,6 +481,7 @@ func (p *GRPCProvider) ImportResourceState(r providers.ImportResourceStateReques
 			Private:  imported.Private,
 		}
 
+		resSchema := p.getResourceSchema(resource.TypeName)
 		state := cty.NullVal(resSchema.Block.ImpliedType())
 		if imported.State != nil {
 			state, err = msgpack.Unmarshal(imported.State.Msgpack, resSchema.Block.ImpliedType())

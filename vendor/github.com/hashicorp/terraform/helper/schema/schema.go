@@ -19,6 +19,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"sync"
 
 	"github.com/hashicorp/terraform/config"
 	"github.com/hashicorp/terraform/terraform"
@@ -31,6 +32,27 @@ const PanicOnErr = "TF_SCHEMA_PANIC_ON_ERROR"
 
 // type used for schema package context keys
 type contextKey string
+
+var (
+	protoVersionMu sync.Mutex
+	protoVersion5  = false
+)
+
+func isProto5() bool {
+	protoVersionMu.Lock()
+	defer protoVersionMu.Unlock()
+	return protoVersion5
+
+}
+
+// SetProto5 enables a feature flag for any internal changes required required
+// to work with the new plugin protocol.  This should not be called by
+// provider.
+func SetProto5() {
+	protoVersionMu.Lock()
+	defer protoVersionMu.Unlock()
+	protoVersion5 = true
+}
 
 // Schema is used to describe the structure of a value.
 //
@@ -799,10 +821,19 @@ func (m schemaMap) diff(
 	for attrK, attrV := range unsupressedDiff.Attributes {
 		switch rd := d.(type) {
 		case *ResourceData:
-			if schema.DiffSuppressFunc != nil &&
-				attrV != nil &&
+			if schema.DiffSuppressFunc != nil && attrV != nil &&
 				schema.DiffSuppressFunc(attrK, attrV.Old, attrV.New, rd) {
-				continue
+				// If this attr diff is suppressed, we may still need it in the
+				// overall diff if it's contained within a set. Rather than
+				// dropping the diff, make it a NOOP.
+				if !all {
+					continue
+				}
+
+				attrV = &terraform.ResourceAttrDiff{
+					Old: attrV.Old,
+					New: attrV.Old,
+				}
 			}
 		}
 		diff.Attributes[attrK] = attrV
@@ -1266,6 +1297,13 @@ func (m schemaMap) validate(
 			"%q: this field cannot be set", k)}
 	}
 
+	if raw == config.UnknownVariableValue {
+		// If the value is unknown then we can't validate it yet.
+		// In particular, this avoids spurious type errors where downstream
+		// validation code sees UnknownVariableValue as being just a string.
+		return nil, nil
+	}
+
 	err := m.validateConflictingAttributes(k, schema, c)
 	if err != nil {
 		return nil, []error{err}
@@ -1283,10 +1321,15 @@ func (m schemaMap) validateConflictingAttributes(
 		return nil
 	}
 
-	for _, conflicting_key := range schema.ConflictsWith {
-		if _, ok := c.Get(conflicting_key); ok {
+	for _, conflictingKey := range schema.ConflictsWith {
+		if raw, ok := c.Get(conflictingKey); ok {
+			if raw == config.UnknownVariableValue {
+				// An unknown value might become unset (null) once known, so
+				// we must defer validation until it's known.
+				continue
+			}
 			return fmt.Errorf(
-				"%q: conflicts with %s", k, conflicting_key)
+				"%q: conflicts with %s", k, conflictingKey)
 		}
 	}
 
