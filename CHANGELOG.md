@@ -1,4 +1,9 @@
 ## 2.1.0 (Unreleased)
+
+IMPROVEMENTS:
+
+* The previous release contains an SDK incompatible with TF 0.12. Fortunately 0.12 was not released yet so upgrading the vendored sdk makes this release compatible with 0.12.
+
 ## 2.0.0 (January 18, 2019)
 
 IMPROVEMENTS:
