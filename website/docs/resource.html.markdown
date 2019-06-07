@@ -39,7 +39,7 @@ resource "null_resource" "cluster" {
   }
 
   provisioner "local-exec" {
-    # Bootstrap script called with private_ip of each node in the clutser
+    # Bootstrap script called with private_ip of each node in the cluster
     command = "bootstrap-cluster.sh ${join(" ", aws_instance.cluster.*.private_ip)}"
   }
 }
@@ -51,6 +51,30 @@ a single action that affects them all. Due to the `triggers` map, the
 `null_resource` will be replaced each time the instance ids change, and thus
 the `remote-exec` provisioner will be re-run.
 
+## Notes on local-exec
+When the local-exec provisioner runs a command, it evaluates the exit code of the command. If the exit code is non-zero, the creation of the resource will fail. This can be used in conjunction with a `depends_on` in another resource to tie resource creation to the success of the local-exec command.
+
+See the below example for how this coudl be used
+
+### Example
+```hcl
+resource "aws_route53_zone" "zone" {
+  depends_on = ["null_resource.internal_zone_check"]
+  name  = "${var.domain}"
+}
+
+resource "null_resource" "internal_zone_check" {
+  # Changes to any instance of the cluster requires re-provisioning
+  triggers = {
+    internal_zone_id = "${var.domain}"
+  }
+
+  provisioner "local-exec" {
+    # Check to see if this hosted zone already exists. Returns exit code of '1' if it does exist.
+    command = "! aws route53 list-hosted-zones | jq .HostedZones | grep -q ${var.internal_domain}"
+  }
+}
+```
 
 ## Argument Reference
 
