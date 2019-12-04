@@ -38,9 +38,11 @@ resource "null_resource" "cluster" {
     host = "${element(aws_instance.cluster.*.public_ip, 0)}"
   }
 
-  provisioner "local-exec" {
+  provisioner "remote-exec" {
     # Bootstrap script called with private_ip of each node in the clutser
-    command = "bootstrap-cluster.sh ${join(" ", aws_instance.cluster.*.private_ip)}"
+    inline = [
+      "bootstrap-cluster.sh ${join(" ", aws_instance.cluster.*.private_ip)}",
+    ]
   }
 }
 ```
