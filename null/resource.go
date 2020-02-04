@@ -12,7 +12,7 @@ func init() {
 	rand.Seed(time.Now().Unix())
 }
 
-func resource() *schema.Resource {
+func nullResource() *schema.Resource {
 	return &schema.Resource{
 		Create: resourceCreate,
 		Read:   resourceRead,
