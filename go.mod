@@ -1,4 +1,4 @@
-module github.com/terraform-providers/terraform-provider-null
+module github.com/hashicorp/terraform-provider-null
 
 require (
 	github.com/hashicorp/hcl v1.0.0 // indirect
