@@ -14,15 +14,20 @@ func init() {
 
 func resource() *schema.Resource {
 	return &schema.Resource{
+		Description: `The ` + "`null_resource`" + ` resource implements the standard resource lifecycle but takes no further action.
+
+The ` + "`triggers`" + ` argument allows specifying an arbitrary set of values that, when changed, will cause the resource to be replaced.`,
+
 		Create: resourceCreate,
 		Read:   resourceRead,
 		Delete: resourceDelete,
 
 		Schema: map[string]*schema.Schema{
 			"triggers": {
-				Type:     schema.TypeMap,
-				Optional: true,
-				ForceNew: true,
+				Description: "A map of arbitrary strings that, when changed, will force the null resource to be replaced, re-running any associated provisioners.",
+				Type:        schema.TypeMap,
+				Optional:    true,
+				ForceNew:    true,
 			},
 		},
 	}
