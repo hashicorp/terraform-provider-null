@@ -1,4 +1,4 @@
-package null
+package provider
 
 import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -8,8 +8,8 @@ func init() {
 	schema.DescriptionKind = schema.StringMarkdown
 }
 
-// Provider returns a terraform.ResourceProvider.
-func Provider() *schema.Provider {
+// New returns a terraform.ResourceProvider.
+func New() *schema.Provider {
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{},
 
