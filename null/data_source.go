@@ -14,25 +14,31 @@ func init() {
 
 func dataSource() *schema.Resource {
 	return &schema.Resource{
+		Description: "The `null_data_source` data source implements the standard data source lifecycle but does not interact with any external APIs.",
+
 		Read: dataSourceRead,
 
 		Schema: map[string]*schema.Schema{
 			"inputs": {
-				Type:     schema.TypeMap,
-				Optional: true,
+				Description: "A map of arbitrary strings that is copied into the `outputs` attribute, and accessible directly for interpolation.",
+				Type:        schema.TypeMap,
+				Optional:    true,
 			},
 			"outputs": {
-				Type:     schema.TypeMap,
-				Computed: true,
+				Description: "After the data source is \"read\", a copy of the `inputs` map.",
+				Type:        schema.TypeMap,
+				Computed:    true,
 			},
 			"random": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Description: "A random value. This is primarily for testing and has little practical use; prefer the [random provider](https://www.terraform.io/docs/providers/random/) for more practical random number use-cases.",
+				Type:        schema.TypeString,
+				Computed:    true,
 			},
 			"has_computed_default": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
+				Description: "If set, its literal value will be stored and returned. If not, its value defaults to `\"default\"`. This argument exists primarily for testing and has little practical use.",
+				Type:        schema.TypeString,
+				Optional:    true,
+				Computed:    true,
 			},
 		},
 	}
