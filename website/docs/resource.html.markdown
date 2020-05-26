@@ -32,6 +32,9 @@ resource "null_resource" "cluster" {
     cluster_instance_ids = "${join(",", aws_instance.cluster.*.id)}"
   }
 
+  # Wait for 5 seconds before running provisioners
+  delay = 5
+
   # Bootstrap script can run on any instance of the cluster
   # So we just choose the first in this case
   connection {
@@ -61,6 +64,8 @@ The following arguments are supported:
 * `triggers` - (Optional) A map of arbitrary strings that, when changed, will
   force the null resource to be replaced, re-running any associated
 provisioners.
+
+* `delay` - (Optional) Number of seconds required to create null resource.
 
 ## Attributes Reference
 

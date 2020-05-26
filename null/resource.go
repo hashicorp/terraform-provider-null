@@ -24,12 +24,18 @@ func resource() *schema.Resource {
 				Optional: true,
 				ForceNew: true,
 			},
+			"delay" : {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Default: 0,
+			},
 		},
 	}
 }
 
 func resourceCreate(d *schema.ResourceData, meta interface{}) error {
 	d.SetId(fmt.Sprintf("%d", rand.Int()))
+	time.Sleep(d.Get("delay").(time.Duration) * time.Second)
 	return nil
 }
 
