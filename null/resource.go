@@ -24,10 +24,10 @@ func resource() *schema.Resource {
 				Optional: true,
 				ForceNew: true,
 			},
-			"delay" : {
+			"delay": {
 				Type:     schema.TypeInt,
 				Optional: true,
-				Default: 0,
+				Default:  0,
 			},
 		},
 	}
