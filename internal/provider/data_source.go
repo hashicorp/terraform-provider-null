@@ -1,16 +1,11 @@
-package null
+package provider
 
 import (
 	"fmt"
 	"math/rand"
-	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
-
-func init() {
-	rand.Seed(time.Now().Unix())
-}
 
 func dataSource() *schema.Resource {
 	return &schema.Resource{

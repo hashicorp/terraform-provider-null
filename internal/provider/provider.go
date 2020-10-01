@@ -1,15 +1,19 @@
-package null
+package provider
 
 import (
+	"math/rand"
+	"time"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func init() {
 	schema.DescriptionKind = schema.StringMarkdown
+	rand.Seed(time.Now().Unix())
 }
 
-// Provider returns a terraform.ResourceProvider.
-func Provider() *schema.Provider {
+// New returns a *schema.Provider.
+func New() *schema.Provider {
 	return &schema.Provider{
 		Schema: map[string]*schema.Schema{},
 
