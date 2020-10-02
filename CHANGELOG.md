@@ -1,8 +1,8 @@
-## 2.2.0 (Unreleased)
+## 3.0.0 (Unreleased)
 
-NOTES:
+BREAKING CHANGES:
 
-* The provider has switched to the standalone TF SDK, there should be no noticeable impact on compatibility. [GH-35]
+* Upgrade to version 2 of the Terraform Plugin SDK, which drops support for Terraform 0.11. This provider will continue to work as expected for users of Terraform 0.11, which will not download the new version. [GH-47]
 
 ## 2.1.2 (April 30, 2019)
 
