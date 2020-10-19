@@ -14,6 +14,9 @@ takes no further action.
 The `triggers` argument allows specifying an arbitrary set of values that,
 when changed, will cause the resource to be replaced.
 
+The `sensitive_triggers` argument does the same as `triggers`, but with all
+values marked as sensitive.
+
 ## Example Usage
 
 The primary use-case for the null resource is as a do-nothing container for
@@ -61,6 +64,10 @@ The following arguments are supported:
 * `triggers` - (Optional) A map of arbitrary strings that, when changed, will
   force the null resource to be replaced, re-running any associated
 provisioners.
+* `sensitive_triggers` - (Optional) A map of arbitrary strings that, when
+  changed, will force the null resource to be replaced, re-running any
+  associated provisioners. These values are all marked as sensitive and will
+  thus not be displayed in a plan.
 
 ## Attributes Reference
 

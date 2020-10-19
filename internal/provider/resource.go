@@ -11,7 +11,9 @@ func resource() *schema.Resource {
 	return &schema.Resource{
 		Description: `The ` + "`null_resource`" + ` resource implements the standard resource lifecycle but takes no further action.
 
-The ` + "`triggers`" + ` argument allows specifying an arbitrary set of values that, when changed, will cause the resource to be replaced.`,
+The ` + "`triggers`" + ` argument allows specifying an arbitrary set of values that, when changed, will cause the resource to be replaced.
+
+The ` + "`sensitive_triggers`" + ` argument does the same as ` + "`triggers`" + `, but with all values marked as sensitive.`,
 
 		Create: resourceCreate,
 		Read:   resourceRead,
@@ -23,6 +25,14 @@ The ` + "`triggers`" + ` argument allows specifying an arbitrary set of values t
 				Type:        schema.TypeMap,
 				Optional:    true,
 				ForceNew:    true,
+			},
+			"sensitive_triggers": {
+				Description: "A map of arbitrary strings that, when changed, will force the null resource to be replaced, re-running any associated provisioners." +
+					" These values are all marked as sensitive and will thus not be displayed in a plan.",
+				Type:      schema.TypeMap,
+				Optional:  true,
+				ForceNew:  true,
+				Sensitive: true,
 			},
 		},
 	}
