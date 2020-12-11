@@ -1,3 +1,7 @@
+## 3.2.0 (Unreleased)
+
+* Add `sensitive` resource and data source which masks the inputs and outputs. These are functionally identical to their non-sensitive counterparts.
+
 ## 3.1.0 (February 19, 2021)
 
 Binary releases of this provider now include the darwin-arm64 platform. This version contains no further changes.
