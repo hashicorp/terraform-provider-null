@@ -1,7 +1,5 @@
 ---
-layout: "null"
 page_title: "Provider: Null"
-sidebar_current: "docs-null-index"
 description: |-
   The null provider provides no-op constructs that can be useful helpers in tricky cases.
 ---

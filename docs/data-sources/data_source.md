@@ -1,7 +1,5 @@
 ---
-layout: "null"
 page_title: "Null Data Source"
-sidebar_current: "docs-data-source"
 description: |-
   A data source that does nothing.
 ---

@@ -1,7 +1,5 @@
 ---
-layout: "null"
 page_title: "Null Resource"
-sidebar_current: "docs-null-resource"
 description: |-
   A resource that does nothing.
 ---
