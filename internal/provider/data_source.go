@@ -9,7 +9,12 @@ import (
 
 func dataSource() *schema.Resource {
 	return &schema.Resource{
-		Description: "The `null_data_source` data source implements the standard data source lifecycle but does not interact with any external APIs.",
+		Description: `The ` + "`null_data_source`" + ` data source implements the standard data source lifecycle but does not
+interact with any external APIs.
+
+Historically, the ` + "`null_data_source`" + ` was typically used to construct intermediate values to re-use elsewhere in configuration. The
+same can now be achieved using [locals](https://www.terraform.io/docs/language/values/locals.html).
+`,
 
 		Read: dataSourceRead,
 
@@ -25,7 +30,7 @@ func dataSource() *schema.Resource {
 				Computed:    true,
 			},
 			"random": {
-				Description: "A random value. This is primarily for testing and has little practical use; prefer the [random provider](https://www.terraform.io/docs/providers/random/) for more practical random number use-cases.",
+				Description: "A random value. This is primarily for testing and has little practical use; prefer the [hashicorp/random provider](https://registry.terraform.io/providers/hashicorp/random) for more practical random number use-cases.",
 				Type:        schema.TypeString,
 				Computed:    true,
 			},
