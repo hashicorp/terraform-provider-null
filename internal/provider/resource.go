@@ -24,6 +24,12 @@ The ` + "`triggers`" + ` argument allows specifying an arbitrary set of values t
 				Optional:    true,
 				ForceNew:    true,
 			},
+
+			"id": {
+				Description: "This is set to a random value at create time.",
+				Computed:    true,
+				Type:        schema.TypeString,
+			},
 		},
 	}
 }

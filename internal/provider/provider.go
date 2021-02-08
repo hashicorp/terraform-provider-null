@@ -9,6 +9,7 @@ import (
 
 func init() {
 	schema.DescriptionKind = schema.StringMarkdown
+
 	rand.Seed(time.Now().Unix())
 }
 
