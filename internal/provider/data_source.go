@@ -9,6 +9,9 @@ import (
 
 func dataSource() *schema.Resource {
 	return &schema.Resource{
+		DeprecationMessage: "The null_data_source was historically used to construct intermediate values to re-use elsewhere " +
+			"in configuration, the same can now be achieved using locals",
+
 		Description: `The ` + "`null_data_source`" + ` data source implements the standard data source lifecycle but does not
 interact with any external APIs.
 
@@ -39,6 +42,13 @@ same can now be achieved using [locals](https://www.terraform.io/docs/language/v
 				Type:        schema.TypeString,
 				Optional:    true,
 				Computed:    true,
+			},
+
+			"id": {
+				Description: "This attribute is only present for some legacy compatibility issues and should not be used. It will be removed in a future version.",
+				Computed:    true,
+				Deprecated:  "This attribute is only present for some legacy compatibility issues and should not be used. It will be removed in a future version.",
+				Type:        schema.TypeString,
 			},
 		},
 	}

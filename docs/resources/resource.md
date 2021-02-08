@@ -55,6 +55,9 @@ resource "null_resource" "cluster" {
 
 ### Optional
 
-- **id** (String) The ID of this resource.
 - **triggers** (Map of String) A map of arbitrary strings that, when changed, will force the null resource to be replaced, re-running any associated provisioners.
+
+### Read-Only
+
+- **id** (String) This is set to a random value at create time.
 
