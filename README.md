@@ -11,8 +11,8 @@ This provider plugin is maintained by the Terraform team at [HashiCorp](https://
 Requirements
 ------------
 
--	[Terraform](https://www.terraform.io/downloads.html) 0.10.x
--	[Go](https://golang.org/doc/install) 1.11 (to build the provider plugin)
+-	[Terraform](https://www.terraform.io/downloads.html) 0.12.x
+-	[Go](https://golang.org/doc/install) 1.16 (to build the provider plugin)
 
 Building The Provider
 ---------------------
@@ -34,7 +34,7 @@ $ make build
 Developing the Provider
 ---------------------------
 
-If you wish to work on the provider, you'll first need [Go](http://www.golang.org) installed on your machine (version 1.15+ is *required*).
+If you wish to work on the provider, you'll first need [Go](http://www.golang.org) installed on your machine (version 1.16+ is *required*).
 
 To generate the documentation, run `go generate` in the root of the codebase.
 
