@@ -7,7 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-func dataSource() *schema.Resource {
+func nullDataSource() *schema.Resource {
 	return &schema.Resource{
 		DeprecationMessage: "The null_data_source was historically used to construct intermediate values to re-use elsewhere " +
 			"in configuration, the same can now be achieved using locals",

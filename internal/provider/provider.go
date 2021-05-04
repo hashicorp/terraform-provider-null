@@ -19,11 +19,11 @@ func New() *schema.Provider {
 		Schema: map[string]*schema.Schema{},
 
 		ResourcesMap: map[string]*schema.Resource{
-			"null_resource": resource(),
+			"null_resource": nullResource(),
 		},
 
 		DataSourcesMap: map[string]*schema.Resource{
-			"null_data_source": dataSource(),
+			"null_data_source": nullDataSource(),
 		},
 	}
 }

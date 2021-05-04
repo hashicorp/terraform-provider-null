@@ -7,7 +7,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-func resource() *schema.Resource {
+func nullResource() *schema.Resource {
 	return &schema.Resource{
 		Description: `The ` + "`null_resource`" + ` resource implements the standard resource lifecycle but takes no further action.
 
