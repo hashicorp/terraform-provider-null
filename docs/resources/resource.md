@@ -13,6 +13,9 @@ The `null_resource` resource implements the standard resource lifecycle but take
 
 The `triggers` argument allows specifying an arbitrary set of values that, when changed, will cause the resource to be replaced.
 
+The `triggers_update` argument allows specifying an arbitrary set of values that, when changed, will cause the resource to be updated.
+Those if the resource already exists, only the `create` actions are executed.
+
 ## Example Usage
 
 ```terraform
@@ -56,6 +59,7 @@ resource "null_resource" "cluster" {
 ### Optional
 
 - **triggers** (Map of String) A map of arbitrary strings that, when changed, will force the null resource to be replaced, re-running any associated provisioners.
+- **triggers_update** (Map of String) A map of arbitrary strings that, when changed, will update the null resource, re-running any associated provisioners. On update of a resource, only the create action is executed.
 
 ### Read-Only
 
