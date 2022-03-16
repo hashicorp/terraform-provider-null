@@ -47,12 +47,12 @@ output "all_server_ips" {
 
 ### Optional
 
-- **has_computed_default** (String) If set, its literal value will be stored and returned. If not, its value defaults to `"default"`. This argument exists primarily for testing and has little practical use.
-- **inputs** (Map of String) A map of arbitrary strings that is copied into the `outputs` attribute, and accessible directly for interpolation.
+- `has_computed_default` (String) If set, its literal value will be stored and returned. If not, its value defaults to `"default"`. This argument exists primarily for testing and has little practical use.
+- `inputs` (Map of String) A map of arbitrary strings that is copied into the `outputs` attribute, and accessible directly for interpolation.
 
 ### Read-Only
 
-- **id** (String, Deprecated) This attribute is only present for some legacy compatibility issues and should not be used. It will be removed in a future version.
-- **outputs** (Map of String) After the data source is "read", a copy of the `inputs` map.
-- **random** (String) A random value. This is primarily for testing and has little practical use; prefer the [hashicorp/random provider](https://registry.terraform.io/providers/hashicorp/random) for more practical random number use-cases.
+- `id` (String, Deprecated) This attribute is only present for some legacy compatibility issues and should not be used. It will be removed in a future version.
+- `outputs` (Map of String) After the data source is "read", a copy of the `inputs` map.
+- `random` (String) A random value. This is primarily for testing and has little practical use; prefer the [hashicorp/random provider](https://registry.terraform.io/providers/hashicorp/random) for more practical random number use-cases.
 
