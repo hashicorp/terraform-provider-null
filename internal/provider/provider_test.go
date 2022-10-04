@@ -6,13 +6,13 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
-var testAccProviders map[string]*schema.Provider
-var testAccProvider *schema.Provider
+var testAccProviders map[string]func() (*schema.Provider, error)
 
 func init() {
-	testAccProvider = New()
-	testAccProviders = map[string]*schema.Provider{
-		"null": testAccProvider,
+	testAccProviders = map[string]func() (*schema.Provider, error){
+		"null": func() (*schema.Provider, error) {
+			return New(), nil
+		},
 	}
 }
 

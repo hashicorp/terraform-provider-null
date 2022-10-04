@@ -9,7 +9,7 @@ import (
 func TestAccDataSource_basic(t *testing.T) {
 	dsn := "data.null_data_source.test"
 	resource.UnitTest(t, resource.TestCase{
-		Providers: testAccProviders,
+		ProviderFactories: testAccProviders,
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceConfig_basic,
@@ -25,7 +25,7 @@ func TestAccDataSource_basic(t *testing.T) {
 func TestAccDataSource_inputs(t *testing.T) {
 	dsn := "data.null_data_source.test"
 	resource.UnitTest(t, resource.TestCase{
-		Providers: testAccProviders,
+		ProviderFactories: testAccProviders,
 		Steps: []resource.TestStep{
 			{
 				Config: testAccDataSourceConfig_inputs,
