@@ -8,6 +8,7 @@ import (
 
 var testAccProviders map[string]func() (*schema.Provider, error)
 
+//nolint:unparam
 func init() {
 	testAccProviders = map[string]func() (*schema.Provider, error){
 		"null": func() (*schema.Provider, error) {
