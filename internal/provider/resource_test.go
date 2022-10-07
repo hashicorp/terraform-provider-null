@@ -9,7 +9,7 @@ import (
 func TestAccResource_basic(t *testing.T) {
 	dsn := "null_resource.test"
 	resource.UnitTest(t, resource.TestCase{
-		ProviderFactories: testAccProviders,
+		ProtoV5ProviderFactories: protoV5ProviderFactories(),
 		Steps: []resource.TestStep{
 			{
 				Config: testAccResourceConfig_basic,

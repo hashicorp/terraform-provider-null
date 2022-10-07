@@ -34,7 +34,9 @@ func (p *nullProvider) DataSources(ctx context.Context) []func() datasource.Data
 }
 
 func (p *nullProvider) Resources(ctx context.Context) []func() resource.Resource {
-	return []func() resource.Resource{}
+	return []func() resource.Resource{
+		NewNullResource,
+	}
 }
 
 func (p *nullProvider) GetSchema(ctx context.Context) (tfsdk.Schema, diag.Diagnostics) {
