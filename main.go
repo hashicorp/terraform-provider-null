@@ -1,7 +1,12 @@
 package main
 
 import (
-	"github.com/hashicorp/terraform-plugin-sdk/v2/plugin"
+	"context"
+	"flag"
+	"log"
+
+	"github.com/hashicorp/terraform-plugin-framework/providerserver"
+
 	"github.com/terraform-providers/terraform-provider-null/internal/provider"
 )
 
@@ -16,6 +21,17 @@ import (
 //go:generate go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs
 
 func main() {
-	plugin.Serve(&plugin.ServeOpts{
-		ProviderFunc: provider.New})
+	var debug bool
+
+	flag.BoolVar(&debug, "debug", false, "set to true to run the provider with support for debuggers like delve")
+	flag.Parse()
+
+	err := providerserver.Serve(context.Background(), provider.New, providerserver.ServeOpts{
+		Address:         "registry.terraform.io/hashicorp/time",
+		Debug:           debug,
+		ProtocolVersion: 5,
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
 }
