@@ -1,28 +1,15 @@
 package provider
 
 import (
-	"testing"
-
+	"github.com/hashicorp/terraform-plugin-framework/providerserver"
+	"github.com/hashicorp/terraform-plugin-go/tfprotov5"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 var testAccProviders map[string]func() (*schema.Provider, error)
 
-//nolint:unparam
-func init() {
-	testAccProviders = map[string]func() (*schema.Provider, error){
-		"null": func() (*schema.Provider, error) {
-			return New(), nil
-		},
+func protoV5ProviderFactories() map[string]func() (tfprotov5.ProviderServer, error) {
+	return map[string]func() (tfprotov5.ProviderServer, error){
+		"null": providerserver.NewProtocol5WithError(New()),
 	}
-}
-
-func TestProvider(t *testing.T) {
-	if err := New().InternalValidate(); err != nil {
-		t.Fatalf("err: %s", err)
-	}
-}
-
-func TestProvider_impl(t *testing.T) {
-	var _ *schema.Provider = New()
 }
