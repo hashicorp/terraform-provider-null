@@ -10,14 +10,14 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 )
 
-func New() provider.Provider {
-	return &nullProvider{}
-}
-
 var (
 	_ provider.Provider             = (*nullProvider)(nil)
 	_ provider.ProviderWithMetadata = (*nullProvider)(nil)
 )
+
+func New() provider.Provider {
+	return &nullProvider{}
+}
 
 type nullProvider struct{}
 
@@ -30,7 +30,9 @@ func (p *nullProvider) Configure(ctx context.Context, req provider.ConfigureRequ
 }
 
 func (p *nullProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
-	return nil
+	return []func() datasource.DataSource{
+		NewNullDataSource,
+	}
 }
 
 func (p *nullProvider) Resources(ctx context.Context) []func() resource.Resource {
