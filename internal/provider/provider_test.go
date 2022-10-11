@@ -14,7 +14,7 @@ func protoV5ProviderFactories() map[string]func() (tfprotov5.ProviderServer, err
 
 func providerVersion311() map[string]resource.ExternalProvider {
 	return map[string]resource.ExternalProvider{
-		"time": {
+		"null": {
 			VersionConstraint: "3.1.1",
 			Source:            "hashicorp/null",
 		},
