@@ -41,7 +41,7 @@ func TestAccDataSource_inputs(t *testing.T) {
 func TestAccTimeOffset_Upgrade_Basic(t *testing.T) {
 	dsn := "data.null_data_source.test"
 
-	resource.UnitTest(t, resource.TestCase{
+	resource.Test(t, resource.TestCase{
 		Steps: []resource.TestStep{
 			{
 				ExternalProviders: providerVersion311(),
@@ -71,7 +71,7 @@ func TestAccTimeOffset_Upgrade_Basic(t *testing.T) {
 func TestAccTimeOffset_Upgrade_Inputs(t *testing.T) {
 	dsn := "data.null_data_source.test"
 
-	resource.UnitTest(t, resource.TestCase{
+	resource.Test(t, resource.TestCase{
 		Steps: []resource.TestStep{
 			{
 				ExternalProviders: providerVersion311(),

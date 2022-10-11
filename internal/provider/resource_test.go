@@ -24,7 +24,7 @@ func TestAccResource_basic(t *testing.T) {
 func TestAccTimeOffset_Upgrade(t *testing.T) {
 	dsn := "null_resource.test"
 
-	resource.UnitTest(t, resource.TestCase{
+	resource.Test(t, resource.TestCase{
 		Steps: []resource.TestStep{
 			{
 				ExternalProviders: providerVersion311(),
