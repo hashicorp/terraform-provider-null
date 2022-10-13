@@ -22,13 +22,14 @@ resource "aws_instance" "cluster" {
   # ...
 }
 
-# The primary use-case for the null resource is as a do-nothing container for
-# arbitrary actions taken by a provisioner.
+# The primary use-case for the null resource is as a do-nothing container
+# for arbitrary actions taken by a provisioner.
 #
-# In this example, three EC2 instances are created and then a null_resource instance
-# is used to gather data about all three and execute a single action that affects
-# them all. Due to the triggers map, the null_resource will be replaced each time
-# the instance ids change, and thus the remote-exec provisioner will be re-run.
+# In this example, three EC2 instances are created and then a
+# null_resource instance is used to gather data about all three
+# and execute a single action that affects them all. Due to the triggers
+# map, the null_resource will be replaced each time the instance ids
+# change, and thus the remote-exec provisioner will be re-run.
 resource "null_resource" "cluster" {
   # Changes to any instance of the cluster requires re-provisioning
   triggers = {
@@ -42,9 +43,10 @@ resource "null_resource" "cluster" {
   }
 
   provisioner "remote-exec" {
-    # Bootstrap script called with private_ip of each node in the clutser
+    # Bootstrap script called with private_ip of each node in the cluster
     inline = [
-      "bootstrap-cluster.sh ${join(" ", aws_instance.cluster.*.private_ip)}",
+      "bootstrap-cluster.sh ${join(" ",
+      aws_instance.cluster.*.private_ip)}",
     ]
   }
 }
