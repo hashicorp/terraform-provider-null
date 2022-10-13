@@ -1,9 +1,11 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"math/rand"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
@@ -13,9 +15,9 @@ func nullResource() *schema.Resource {
 
 The ` + "`triggers`" + ` argument allows specifying an arbitrary set of values that, when changed, will cause the resource to be replaced.`,
 
-		Create: resourceCreate,
-		Read:   resourceRead,
-		Delete: resourceDelete,
+		CreateContext: resourceCreate,
+		ReadContext:   resourceRead,
+		DeleteContext: resourceDelete,
 
 		Schema: map[string]*schema.Schema{
 			"triggers": {
@@ -34,16 +36,16 @@ The ` + "`triggers`" + ` argument allows specifying an arbitrary set of values t
 	}
 }
 
-func resourceCreate(d *schema.ResourceData, meta interface{}) error {
+func resourceCreate(context context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	d.SetId(fmt.Sprintf("%d", rand.Int()))
 	return nil
 }
 
-func resourceRead(d *schema.ResourceData, meta interface{}) error {
+func resourceRead(context context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	return nil
 }
 
-func resourceDelete(d *schema.ResourceData, meta interface{}) error {
+func resourceDelete(context context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 	d.SetId("")
 	return nil
 }

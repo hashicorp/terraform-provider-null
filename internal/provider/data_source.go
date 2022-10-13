@@ -1,9 +1,11 @@
 package provider
 
 import (
+	"context"
 	"fmt"
 	"math/rand"
 
+	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
@@ -19,7 +21,7 @@ Historically, the ` + "`null_data_source`" + ` was typically used to construct i
 same can now be achieved using [locals](https://www.terraform.io/docs/language/values/locals.html).
 `,
 
-		Read: dataSourceRead,
+		ReadContext: dataSourceRead,
 
 		Schema: map[string]*schema.Schema{
 			"inputs": {
@@ -54,14 +56,23 @@ same can now be achieved using [locals](https://www.terraform.io/docs/language/v
 	}
 }
 
-func dataSourceRead(d *schema.ResourceData, meta interface{}) error {
+func dataSourceRead(context context.Context, d *schema.ResourceData, meta interface{}) diag.Diagnostics {
 
 	inputs := d.Get("inputs")
-	d.Set("outputs", inputs)
+	err := d.Set("outputs", inputs)
+	if err != nil {
+		return diag.Errorf("error setting outputs: %s", err)
+	}
 
-	d.Set("random", fmt.Sprintf("%d", rand.Int()))
+	err = d.Set("random", fmt.Sprintf("%d", rand.Int()))
+	if err != nil {
+		return diag.Errorf("error setting random int: %s", err)
+	}
 	if d.Get("has_computed_default") == "" {
-		d.Set("has_computed_default", "default")
+		err := d.Set("has_computed_default", "default")
+		if err != nil {
+			return diag.Errorf("error setting has_computed_default: %s", err)
+		}
 	}
 
 	d.SetId("static")
