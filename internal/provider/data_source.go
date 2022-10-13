@@ -81,7 +81,6 @@ func (n nullDataSource) Read(ctx context.Context, req datasource.ReadRequest, re
 	config.Random = types.String{Value: fmt.Sprintf("%d", rand.Int())}
 
 	if config.HasComputedDefault.IsNull() {
-		config.HasComputedDefault.Null = false
 		config.HasComputedDefault = types.String{Value: "default"}
 	}
 	config.ID = types.String{Value: "static"}

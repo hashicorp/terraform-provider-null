@@ -64,6 +64,5 @@ func (n nullResource) Update(ctx context.Context, req resource.UpdateRequest, re
 }
 
 func (n nullResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
-	diags := resp.State.SetAttribute(ctx, path.Root("id"), "")
-	resp.Diagnostics.Append(diags...)
+
 }
