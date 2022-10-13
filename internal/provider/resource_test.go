@@ -21,7 +21,7 @@ func TestAccResource_basic(t *testing.T) {
 	})
 }
 
-func TestAccTimeOffset_Upgrade(t *testing.T) {
+func TestAccResource_FrameworkUpgrade(t *testing.T) {
 	dsn := "null_resource.test"
 
 	resource.Test(t, resource.TestCase{
