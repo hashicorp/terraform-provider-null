@@ -21,11 +21,11 @@ func NewNullDataSource() datasource.DataSource {
 
 type nullDataSource struct{}
 
-func (n nullDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+func (n *nullDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_data_source"
 }
 
-func (n nullDataSource) GetSchema(ctx context.Context) (tfsdk.Schema, diag.Diagnostics) {
+func (n *nullDataSource) GetSchema(ctx context.Context) (tfsdk.Schema, diag.Diagnostics) {
 	return tfsdk.Schema{
 		DeprecationMessage: "The null_data_source was historically used to construct intermediate values to re-use elsewhere " +
 			"in configuration, the same can now be achieved using locals",
@@ -68,7 +68,7 @@ same can now be achieved using [locals](https://www.terraform.io/docs/language/v
 	}, nil
 }
 
-func (n nullDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+func (n *nullDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
 	var config nullDataSourceModelV0
 
 	diags := req.Config.Get(ctx, &config)

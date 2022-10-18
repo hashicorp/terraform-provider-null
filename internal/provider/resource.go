@@ -22,11 +22,11 @@ func NewNullResource() resource.Resource {
 
 type nullResource struct{}
 
-func (n nullResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
+func (n *nullResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_resource"
 }
 
-func (n nullResource) GetSchema(ctx context.Context) (tfsdk.Schema, diag.Diagnostics) {
+func (n *nullResource) GetSchema(ctx context.Context) (tfsdk.Schema, diag.Diagnostics) {
 	return tfsdk.Schema{
 		Description: `The ` + "`null_resource`" + ` resource implements the standard resource lifecycle but takes no further action.
 
@@ -50,19 +50,19 @@ The ` + "`triggers`" + ` argument allows specifying an arbitrary set of values t
 	}, nil
 }
 
-func (n nullResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+func (n *nullResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
 	diags := resp.State.SetAttribute(ctx, path.Root("id"), fmt.Sprintf("%d", rand.Int()))
 	resp.Diagnostics.Append(diags...)
 }
 
-func (n nullResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
+func (n *nullResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 
 }
 
-func (n nullResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+func (n *nullResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
 
 }
 
-func (n nullResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+func (n *nullResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 
 }
