@@ -56,6 +56,15 @@ The ` + "`triggers`" + ` argument allows specifying an arbitrary set of values t
 }
 
 func (n *nullResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {
+	var model nullModelV0
+
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &model)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
+
 	diags := resp.State.SetAttribute(ctx, path.Root("id"), fmt.Sprintf("%d", rand.Int()))
 	resp.Diagnostics.Append(diags...)
 }
