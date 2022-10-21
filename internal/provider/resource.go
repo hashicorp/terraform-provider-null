@@ -10,6 +10,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"github.com/terraform-providers/terraform-provider-null/internal/planmodifiers"
 )
 
 var (
@@ -37,7 +39,7 @@ The ` + "`triggers`" + ` argument allows specifying an arbitrary set of values t
 				Type:        types.MapType{ElemType: types.StringType},
 				Optional:    true,
 				PlanModifiers: []tfsdk.AttributePlanModifier{
-					resource.RequiresReplace(),
+					planmodifiers.RequiresReplaceIfValuesNotNull(),
 				},
 			},
 
@@ -45,6 +47,9 @@ The ` + "`triggers`" + ` argument allows specifying an arbitrary set of values t
 				Description: "This is set to a random value at create time.",
 				Computed:    true,
 				Type:        types.StringType,
+				PlanModifiers: []tfsdk.AttributePlanModifier{
+					resource.UseStateForUnknown(),
+				},
 			},
 		},
 	}, nil
@@ -60,9 +65,22 @@ func (n *nullResource) Read(ctx context.Context, req resource.ReadRequest, resp 
 }
 
 func (n *nullResource) Update(ctx context.Context, req resource.UpdateRequest, resp *resource.UpdateResponse) {
+	var model nullModelV0
 
+	resp.Diagnostics.Append(req.Plan.Get(ctx, &model)...)
+
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	resp.Diagnostics.Append(resp.State.Set(ctx, &model)...)
 }
 
 func (n *nullResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 
+}
+
+type nullModelV0 struct {
+	Triggers types.Map    `tfsdk:"triggers"`
+	ID       types.String `tfsdk:"id"`
 }
