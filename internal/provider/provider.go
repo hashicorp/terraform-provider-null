@@ -1,29 +1,46 @@
 package provider
 
 import (
-	"math/rand"
-	"time"
+	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/provider"
+	"github.com/hashicorp/terraform-plugin-framework/resource"
+	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 )
 
-func init() {
-	schema.DescriptionKind = schema.StringMarkdown
+var (
+	_ provider.Provider             = (*nullProvider)(nil)
+	_ provider.ProviderWithMetadata = (*nullProvider)(nil)
+)
 
-	rand.Seed(time.Now().Unix())
+func New() provider.Provider {
+	return &nullProvider{}
 }
 
-// New returns a *schema.Provider.
-func New() *schema.Provider {
-	return &schema.Provider{
-		Schema: map[string]*schema.Schema{},
+type nullProvider struct{}
 
-		ResourcesMap: map[string]*schema.Resource{
-			"null_resource": nullResource(),
-		},
+func (p *nullProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
+	resp.TypeName = "null"
+}
 
-		DataSourcesMap: map[string]*schema.Resource{
-			"null_data_source": nullDataSource(),
-		},
+func (p *nullProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
+
+}
+
+func (p *nullProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
+	return []func() datasource.DataSource{
+		NewNullDataSource,
 	}
+}
+
+func (p *nullProvider) Resources(ctx context.Context) []func() resource.Resource {
+	return []func() resource.Resource{
+		NewNullResource,
+	}
+}
+
+func (p *nullProvider) GetSchema(ctx context.Context) (tfsdk.Schema, diag.Diagnostics) {
+	return tfsdk.Schema{}, nil
 }

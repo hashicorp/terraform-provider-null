@@ -1,3 +1,9 @@
+## 3.2.0 (October 25, 2022)
+
+NOTES:
+
+* Provider: Rewritten to use the new [`terraform-plugin-framework`](https://www.terraform.io/plugin/framework) ([#150](https://github.com/hashicorp/terraform-provider-null/pull/150))
+
 ## 3.1.1 (March 16, 2022)
 
 NOTES:
