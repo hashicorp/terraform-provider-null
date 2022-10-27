@@ -78,12 +78,12 @@ func (n *nullDataSource) Read(ctx context.Context, req datasource.ReadRequest, r
 	}
 
 	config.Outputs = config.Inputs
-	config.Random = types.String{Value: fmt.Sprintf("%d", rand.Int())}
+	config.Random = types.StringValue(fmt.Sprintf("%d", rand.Int()))
 
 	if config.HasComputedDefault.IsNull() {
-		config.HasComputedDefault = types.String{Value: "default"}
+		config.HasComputedDefault = types.StringValue("default")
 	}
-	config.ID = types.String{Value: "static"}
+	config.ID = types.StringValue("static")
 	diags = resp.State.Set(ctx, config)
 	resp.Diagnostics.Append(diags...)
 }
