@@ -50,7 +50,7 @@ func (r requiresReplaceIfValuesNotNullModifier) Modify(ctx context.Context, req 
 			return
 		}
 
-		for _, configValue := range configMap.Elems {
+		for _, configValue := range configMap.Elements() {
 			if !configValue.IsNull() {
 				allNullValues = false
 			}
@@ -77,8 +77,8 @@ func (r requiresReplaceIfValuesNotNullModifier) Modify(ctx context.Context, req 
 			return
 		}
 
-		for configKey, configValue := range configMap.Elems {
-			stateValue, ok := stateMap.Elems[configKey]
+		for configKey, configValue := range configMap.Elements() {
+			stateValue, ok := stateMap.Elements()[configKey]
 
 			// If the key doesn't exist in state and the config value is
 			// null, do not trigger replacement.
@@ -96,8 +96,8 @@ func (r requiresReplaceIfValuesNotNullModifier) Modify(ctx context.Context, req 
 			break
 		}
 
-		for stateKey := range stateMap.Elems {
-			_, ok := configMap.Elems[stateKey]
+		for stateKey := range stateMap.Elements() {
+			_, ok := configMap.Elements()[stateKey]
 
 			// If the key doesn't exist in the config, but there is a state
 			// value, trigger replacement.
