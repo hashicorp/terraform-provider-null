@@ -3,7 +3,7 @@ unreleasedDir: unreleased
 changelogPath: CHANGELOG.md
 versionExt: md
 versionFormat: '## {{.Version}} ({{.Time.Format "January 02, 2006"}})'
-kindFormat: '### {{.Kind}}'
+kindFormat: '{{.Kind}}:'
 changeFormat: '* {{.Body}}'
 kinds:
   - label: BREAKING CHANGES
