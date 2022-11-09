@@ -28,12 +28,12 @@ jobs:
         with:
           fetch-depth: 0
       - name: Batch changes
-          uses: miniscruff/changie-action@v0
-          with:
-            version: latest
-            args: batch ${{ inputs.versionNumber }}
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: miniscruff/changie-action@v0
+        with:
+          version: latest
+          args: batch ${{ inputs.versionNumber }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Merge changes
         uses: miniscruff/changie-action@v0
         with:
@@ -52,15 +52,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-          uses: actions/checkout@v3
-          with:
-            fetch-depth: 0
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Git push release tag
-          run: |
-            git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
-            git config --global user.email "${{ env.CI_COMMIT_EMAIL }}"
-            git tag "v${{ inputs.versionNumber }}"
-            git push
+        run: |
+          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+          git config --global user.email "${{ env.CI_COMMIT_EMAIL }}"
+          git tag "v${{ inputs.versionNumber }}"
+          git push
   release-notes:
     needs: [changelog, release-tag]
     runs-on: ubuntu-latest
