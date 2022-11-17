@@ -1,4 +1,4 @@
-## 3.2.1 (November 16, 2022)
+## 3.2.1 (November 17, 2022)
 
 BUG FIXES:
 * Provider: Fix random number generation for ID attributes ([#160](https://github.com/hashicorp/terraform-provider-null/pull/160))
