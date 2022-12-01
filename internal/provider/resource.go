@@ -5,10 +5,11 @@ import (
 	"fmt"
 	"math/rand"
 
-	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
 	"github.com/terraform-providers/terraform-provider-null/internal/planmodifiers"
@@ -28,31 +29,30 @@ func (n *nullResource) Metadata(ctx context.Context, req resource.MetadataReques
 	resp.TypeName = req.ProviderTypeName + "_resource"
 }
 
-func (n *nullResource) GetSchema(ctx context.Context) (tfsdk.Schema, diag.Diagnostics) {
-	return tfsdk.Schema{
+func (n *nullResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
+	resp.Schema = schema.Schema{
 		Description: `The ` + "`null_resource`" + ` resource implements the standard resource lifecycle but takes no further action.
 
 The ` + "`triggers`" + ` argument allows specifying an arbitrary set of values that, when changed, will cause the resource to be replaced.`,
-		Attributes: map[string]tfsdk.Attribute{
-			"triggers": {
+		Attributes: map[string]schema.Attribute{
+			"triggers": schema.MapAttribute{
 				Description: "A map of arbitrary strings that, when changed, will force the null resource to be replaced, re-running any associated provisioners.",
-				Type:        types.MapType{ElemType: types.StringType},
+				ElementType: types.StringType,
 				Optional:    true,
-				PlanModifiers: []tfsdk.AttributePlanModifier{
+				PlanModifiers: []planmodifier.Map{
 					planmodifiers.RequiresReplaceIfValuesNotNull(),
 				},
 			},
 
-			"id": {
+			"id": schema.StringAttribute{
 				Description: "This is set to a random value at create time.",
 				Computed:    true,
-				Type:        types.StringType,
-				PlanModifiers: []tfsdk.AttributePlanModifier{
-					resource.UseStateForUnknown(),
+				PlanModifiers: []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
 				},
 			},
 		},
-	}, nil
+	}
 }
 
 func (n *nullResource) Create(ctx context.Context, req resource.CreateRequest, resp *resource.CreateResponse) {

@@ -3,18 +3,17 @@ package planmodifiers
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
-	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 )
 
-func RequiresReplaceIfValuesNotNull() tfsdk.AttributePlanModifier {
+func RequiresReplaceIfValuesNotNull() planmodifier.Map {
 	return requiresReplaceIfValuesNotNullModifier{}
 }
 
 type requiresReplaceIfValuesNotNullModifier struct{}
 
-func (r requiresReplaceIfValuesNotNullModifier) Modify(ctx context.Context, req tfsdk.ModifyAttributePlanRequest, resp *tfsdk.ModifyAttributePlanResponse) {
-	if req.AttributeConfig == nil || req.AttributePlan == nil || req.AttributeState == nil {
+func (r requiresReplaceIfValuesNotNullModifier) PlanModifyMap(ctx context.Context, req planmodifier.MapRequest, resp *planmodifier.MapResponse) {
+	if req.ConfigValue.IsNull() || req.PlanValue.IsNull() || req.StateValue.IsNull() {
 		// shouldn't happen, but let's not panic if it does
 		return
 	}
@@ -33,24 +32,18 @@ func (r requiresReplaceIfValuesNotNullModifier) Modify(ctx context.Context, req 
 
 	// If there are no differences, do not mark the resource for replacement
 	// and ensure the plan matches the configuration.
-	if req.AttributeConfig.Equal(req.AttributeState) {
+	if req.ConfigValue.Equal(req.StateValue) {
 		return
 	}
 
-	if req.AttributeState.IsNull() {
+	if req.StateValue.IsNull() {
 		// terraform-plugin-sdk would store maps as null if all keys had null
 		// values. To prevent unintentional replacement plans when migrating
 		// to terraform-plugin-framework, only trigger replacement when the
 		// prior state (map) is null and when there are not null map values.
 		allNullValues := true
 
-		configMap, ok := req.AttributeConfig.(types.Map)
-
-		if !ok {
-			return
-		}
-
-		for _, configValue := range configMap.Elements() {
+		for _, configValue := range req.ConfigValue.Elements() {
 			if !configValue.IsNull() {
 				allNullValues = false
 			}
@@ -65,17 +58,8 @@ func (r requiresReplaceIfValuesNotNullModifier) Modify(ctx context.Context, req 
 		// in that case as well.
 		allNewNullValues := true
 
-		configMap, ok := req.AttributeConfig.(types.Map)
-
-		if !ok {
-			return
-		}
-
-		stateMap, ok := req.AttributeState.(types.Map)
-
-		if !ok {
-			return
-		}
+		configMap := req.ConfigValue
+		stateMap := req.StateValue
 
 		for configKey, configValue := range configMap.Elements() {
 			stateValue, ok := stateMap.Elements()[configKey]

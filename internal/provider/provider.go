@@ -6,10 +6,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 )
 
 func init() {
@@ -47,6 +45,5 @@ func (p *nullProvider) Resources(ctx context.Context) []func() resource.Resource
 	}
 }
 
-func (p *nullProvider) GetSchema(ctx context.Context) (tfsdk.Schema, diag.Diagnostics) {
-	return tfsdk.Schema{}, nil
+func (p *nullProvider) Schema(context.Context, provider.SchemaRequest, *provider.SchemaResponse) {
 }
