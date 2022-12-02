@@ -61,8 +61,8 @@ jobs:
           - ubuntu-latest
         terraform:
           - '1.4.*'
-          - '603f48b2a1e27f102e4f53c0fae53cd591bb03ae'
-          - '603f48b2a1e27f102e4f53c0fae53cd591bb03af'
+          - '603f48b'
+          - '703f48b'
 
 
     steps:
