@@ -58,18 +58,9 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - macos-latest
-          - windows-latest
           - ubuntu-latest
         terraform:
-          - '0.12.*'
-          - '0.13.*'
-          - '0.14.*'
-          - '0.15.*'
-          - '1.0.*'
-          - '1.1.*'
-          - '1.2.*'
-          - '1.3.*'
+          - '603f48b2a1e27f102e4f53c0fae53cd591bb03ae'
 
 
     steps:
