@@ -14,10 +14,7 @@ func init() {
 	rand.Seed(time.Now().Unix())
 }
 
-var (
-	_ provider.Provider             = (*nullProvider)(nil)
-	_ provider.ProviderWithMetadata = (*nullProvider)(nil)
-)
+var _ provider.Provider = (*nullProvider)(nil)
 
 func New() provider.Provider {
 	return &nullProvider{}
