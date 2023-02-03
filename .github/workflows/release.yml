@@ -1,4 +1,4 @@
-name: Release
+name: release
 
 on:
   workflow_dispatch:
@@ -13,7 +13,10 @@ env:
   CI_COMMIT_EMAIL: github-team-tf-provider-devex@hashicorp.com
 
 permissions:
+  # Allow creating GitHub release
   contents: write
+  # Allow closing associated milestone
+  issues: write
 
 jobs:
   changelog-version:
@@ -67,7 +70,7 @@ jobs:
           git pull
           git tag "${{ inputs.versionNumber }}"
           git push origin "${{ inputs.versionNumber }}"
-  release-notes:
+  goreleaser:
     needs: [ changelog-version, changelog, release-tag ]
     runs-on: ubuntu-latest
     steps:
@@ -75,31 +78,15 @@ jobs:
         with:
           ref: ${{ inputs.versionNumber }}
           fetch-depth: 0
+      - uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3.5.0
+        with:
+          go-version-file: 'go.mod'
       - name: Generate Release Notes
         run: |
           cd .changes
-          sed -e "1{/# /d;}" -e "2{/^$/d;}" ${{ needs.changelog-version.outputs.version }}.md > release-notes.txt
-      - uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
+          sed -e "1{/# /d;}" -e "2{/^$/d;}" ${{ needs.changelog-version.outputs.version }}.md > /tmp/release-notes.txt
+      - uses: goreleaser/goreleaser-action@f82d6c1c344bcacabba2c841718984797f664a6b # v4.2.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: release-notes
-          path: ./.changes/release-notes.txt
-          retention-days: 1
-  terraform-provider-release:
-    name: 'Terraform Provider Release'
-    needs: [ release-notes ]
-    uses: hashicorp/ghaction-terraform-provider-release/.github/workflows/hashicorp.yml@106e6d08159ccec423310cc2c706bae59f46c09c # v2.2.0
-    secrets:
-      hc-releases-key-prod: '${{ secrets.HC_RELEASES_KEY_PROD }}'
-      hc-releases-key-staging: '${{ secrets.HC_RELEASES_KEY_STAGING }}'
-      hc-releases-github-token: '${{ secrets.HASHI_RELEASES_GITHUB_TOKEN }}'
-      hc-releases-terraform-registry-sync-token: '${{ secrets.TF_PROVIDER_RELEASE_TERRAFORM_REGISTRY_SYNC_TOKEN }}'
-      setup-signore-github-token: '${{ secrets.HASHI_SIGNORE_GITHUB_TOKEN }}'
-      signore-client-id: '${{ secrets.SIGNORE_CLIENT_ID }}'
-      signore-client-secret: '${{ secrets.SIGNORE_CLIENT_SECRET }}'
-      hc-releases-host-staging: '${{ secrets.HC_RELEASES_HOST_STAGING }}'
-      hc-releases-host-prod: '${{ secrets.HC_RELEASES_HOST_PROD }}'
-    with:
-      release-notes: true
-      setup-go-version-file: 'go.mod'
-      # Product Version (e.g. v1.2.3)
-      product-version: '${{ inputs.versionNumber }}'
+          args: release --release-notes /tmp/release-notes.txt --rm-dist

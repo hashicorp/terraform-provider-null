@@ -2,18 +2,19 @@ package provider
 
 import (
 	"context"
+	"math/rand"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 )
 
-var (
-	_ provider.Provider             = (*nullProvider)(nil)
-	_ provider.ProviderWithMetadata = (*nullProvider)(nil)
-)
+func init() {
+	rand.Seed(time.Now().Unix())
+}
+
+var _ provider.Provider = (*nullProvider)(nil)
 
 func New() provider.Provider {
 	return &nullProvider{}
@@ -41,6 +42,5 @@ func (p *nullProvider) Resources(ctx context.Context) []func() resource.Resource
 	}
 }
 
-func (p *nullProvider) GetSchema(ctx context.Context) (tfsdk.Schema, diag.Diagnostics) {
-	return tfsdk.Schema{}, nil
+func (p *nullProvider) Schema(context.Context, provider.SchemaRequest, *provider.SchemaResponse) {
 }
