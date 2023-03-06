@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 data "null_data_source" "values" {
   inputs = {
     all_server_ids = concat(
