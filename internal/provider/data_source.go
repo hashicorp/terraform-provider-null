@@ -27,13 +27,13 @@ func (n *nullDataSource) Metadata(ctx context.Context, req datasource.MetadataRe
 func (n *nullDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		DeprecationMessage: "The null_data_source was historically used to construct intermediate values to re-use elsewhere " +
-			"in configuration, the same can now be achieved using locals",
+			"in configuration, the same can now be achieved using locals or the terraform_data resource type in Terraform 1.4 and later.",
 		Description: `The ` + "`null_data_source`" + ` data source implements the standard data source lifecycle but does not
 interact with any external APIs.
 
 Historically, the ` + "`null_data_source`" + ` was typically used to construct intermediate values to re-use elsewhere in configuration. The
-same can now be achieved using [locals](https://www.terraform.io/docs/language/values/locals.html).
-`,
+same can now be achieved using [locals](https://developer.hashicorp.com/terraform/language/values/locals) ` +
+			`or the [terraform_data resource type](https://developer.hashicorp.com/terraform/language/resources/terraform-data) in Terraform 1.4 and later.`,
 		Attributes: map[string]schema.Attribute{
 			"inputs": schema.MapAttribute{
 				Description: "A map of arbitrary strings that is copied into the `outputs` attribute, and accessible directly for interpolation.",
