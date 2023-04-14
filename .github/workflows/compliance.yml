@@ -12,5 +12,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
-      - uses: hashicorp/setup-copywrite@3ace06ad72e6ec679ea8572457b17dbc3960b8ce # v1.0.0
+      - uses: hashicorp/setup-copywrite@968e3d52e2098e96ab34a54ba17242a351451465 # v1.1.1
       - run: copywrite headers --plan
