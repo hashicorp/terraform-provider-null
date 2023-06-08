@@ -5,13 +5,12 @@ project {
   copyright_year = 2017
 
   header_ignore = [
-    #
-    # Common hashicorp/terraform-provider-* excludes
-    #
-
     # changie tooling configuration and CHANGELOG entries (prose)
     ".changes/unreleased/*.yaml",
     ".changie.yaml",
+
+    # examples used within documentation (prose)
+    "examples/**",
 
     # GitHub issue template configuration
     ".github/ISSUE_TEMPLATE/*.yml",
@@ -27,9 +26,5 @@ project {
 
     # Release Engineering tooling configuration
     ".release/*.hcl",
-
-    # terraform-plugin-docs code snippets (prose)
-    "examples/**/*.sh",
-    "examples/**/*.tf",
   ]
 }
