@@ -1,0 +1,68 @@
+name: CDKTF docs
+
+on: workflow_dispatch
+
+jobs:
+  cdktfDocs:
+    runs-on: ubuntu-latest
+    container:
+      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
+    env:
+      CHECKPOINT_DISABLE: "1"
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+      - name: Get yarn cache directory path
+        id: global-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
+        id: global-cache
+        with:
+          path: ${{ steps.global-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-integration-yarn-${{ hashFiles('**/yarn.lock') }}
+
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
+      - name: Set up Go
+        uses: actions/setup-go@fac708d6674e30b6ba41289acaab6d4b75aa0753 # v4.0.1
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - run: go mod download
+
+      - name: Build Go binary
+        run: |
+          go build -o terraform-provider-null
+
+      - name: Setup Node.js
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
+        with:
+          node-version: "18.x"
+
+      - name: Install cdktf-registry-docs
+        run: npm install -g cdktf-registry-docs@1.11.0
+
+      - name: Run conversion
+        run: |
+          chmod +x terraform-provider-null
+
+          cdktf-registry-docs convert --language='typescript,python' --parallel-conversions-per-document=2 --provider-from-binary="$(pwd)/terraform-provider-null" --additional-provider-requirements="hashicorp/aws@~> 5.0.0" .
+        env:
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+
+      - name: Git push cdktf docs
+        run: |
+          git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+          git config --global user.email "${{ env.CI_COMMIT_EMAIL }}"
+          git checkout -b "cdktf-docs-${{ github.sha }}"
+          git add .
+          git commit -a -m "Update cdktf docs"
+          git push "https://${{ env.CI_COMMIT_AUTHOR }}:${{ secrets.TF_DEVEX_COMMIT_GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@284f54f989303d2699d373481a0cfa13ad5a6666 # v5.0.1
+        with:
+          commit-message: "docs: update cdktf documentation"
+          title: "docs: update cdktf documentation"
+          body: "This PR updates the cdktf related documentation based on the current HCL-based documentation. It is automatically created by the cdktf-documentation GitHub action."
+          token: ${{ secrets.TF_DEVEX_COMMIT_GITHUB_TOKEN }}

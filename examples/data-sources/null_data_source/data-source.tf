@@ -1,3 +1,19 @@
+resource "aws_instance" "green" {
+  count         = 3
+  ami           = "ami-0dcc1e21636832c5d"
+  instance_type = "m5.large"
+
+  # ...
+}
+
+resource "aws_instance" "blue" {
+  count         = 3
+  ami           = "ami-0dcc1e21636832c5d"
+  instance_type = "m5.large"
+
+  # ...
+}
+
 data "null_data_source" "values" {
   inputs = {
     all_server_ids = concat(
@@ -12,9 +28,15 @@ data "null_data_source" "values" {
 }
 
 resource "aws_elb" "main" {
-  # ...
-
   instances = data.null_data_source.values.outputs["all_server_ids"]
+
+  # ...
+  listener {
+    instance_port     = 8000
+    instance_protocol = "http"
+    lb_port           = 80
+    lb_protocol       = "http"
+  }
 }
 
 output "all_server_ids" {
