@@ -30,8 +30,6 @@ import { Instance } from "./.gen/providers/aws/instance";
 class MyConvertedCode extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
-    /*The following providers are missing schema information and might need manual adjustments to synthesize correctly: aws.
-    For a more precise conversion please use the --provider flag in convert.*/
     /*In most cases loops should be handled in the programming language context and 
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
@@ -39,7 +37,7 @@ class MyConvertedCode extends TerraformStack {
     const clusterCount = TerraformCount.of(Token.asNumber("3"));
     const cluster = new Instance(this, "cluster", {
       ami: "ami-0dcc1e21636832c5d",
-      instance_type: "m5.large",
+      instanceType: "m5.large",
       count: clusterCount,
     });
     const nullProviderResourceCluster = new Resource(this, "cluster_1", {
@@ -88,4 +86,4 @@ class MyConvertedCode extends TerraformStack {
 - `id` (String) This is set to a random value at create time.
 
 
-<!-- cache-key: cdktf-0.18.0 input-63b48b841b04abe2967ff224f186b1f32a497a024e9fa833ce9444eccb45113e -->
+<!-- cache-key: cdktf-0.18.0 input-63b48b841b04abe2967ff224f186b1f32a497a024e9fa833ce9444eccb45113e 556251879b8ed0dc4c87a76b568667e0ab5e2c46efdd14a05c556daf05678783-->
