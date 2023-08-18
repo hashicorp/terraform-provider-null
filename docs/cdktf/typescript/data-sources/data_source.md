@@ -41,8 +41,6 @@ import { DataNullDataSource } from "./.gen/providers/null/data-null-data-source"
 class MyConvertedCode extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
-    /*The following providers are missing schema information and might need manual adjustments to synthesize correctly: aws.
-    For a more precise conversion please use the --provider flag in convert.*/
     /*In most cases loops should be handled in the programming language context and 
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
@@ -50,7 +48,7 @@ class MyConvertedCode extends TerraformStack {
     const blueCount = TerraformCount.of(Token.asNumber("3"));
     const blue = new Instance(this, "blue", {
       ami: "ami-0dcc1e21636832c5d",
-      instance_type: "m5.large",
+      instanceType: "m5.large",
       count: blueCount,
     });
     /*In most cases loops should be handled in the programming language context and 
@@ -60,7 +58,7 @@ class MyConvertedCode extends TerraformStack {
     const greenCount = TerraformCount.of(Token.asNumber("3"));
     const green = new Instance(this, "green", {
       ami: "ami-0dcc1e21636832c5d",
-      instance_type: "m5.large",
+      instanceType: "m5.large",
       count: greenCount,
     });
     const values = new DataNullDataSource(this, "values", {
@@ -86,13 +84,15 @@ class MyConvertedCode extends TerraformStack {
       value: Fn.lookupNested(values.outputs, ['"all_server_ips"']),
     });
     new Elb(this, "main", {
-      instances: Fn.lookupNested(values.outputs, ['"all_server_ids"']),
+      instances: Token.asList(
+        Fn.lookupNested(values.outputs, ['"all_server_ids"'])
+      ),
       listener: [
         {
-          instance_port: 8000,
-          instance_protocol: "http",
-          lb_port: 80,
-          lb_protocol: "http",
+          instancePort: 8000,
+          instanceProtocol: "http",
+          lbPort: 80,
+          lbProtocol: "http",
         },
       ],
     });
@@ -116,4 +116,4 @@ class MyConvertedCode extends TerraformStack {
 - `random` (String) A random value. This is primarily for testing and has little practical use; prefer the [hashicorp/random provider](https://registry.terraform.io/providers/hashicorp/random) for more practical random number use-cases.
 
 
-<!-- cache-key: cdktf-0.18.0 input-c57aa183eb3faecd392a2666301466639e17a246180fc7127c0c9b366d16d65b -->
+<!-- cache-key: cdktf-0.18.0 input-c57aa183eb3faecd392a2666301466639e17a246180fc7127c0c9b366d16d65b 556251879b8ed0dc4c87a76b568667e0ab5e2c46efdd14a05c556daf05678783-->
