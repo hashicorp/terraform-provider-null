@@ -5,17 +5,11 @@ package provider
 
 import (
 	"context"
-	"math/rand"
-	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 )
-
-func init() {
-	rand.Seed(time.Now().Unix())
-}
 
 var _ provider.Provider = (*nullProvider)(nil)
 
