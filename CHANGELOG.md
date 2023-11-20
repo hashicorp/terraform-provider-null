@@ -1,3 +1,9 @@
+## 3.2.2 (November 20, 2023)
+
+NOTES:
+
+* This release introduces no functional changes. It does however include dependency updates which address upstream CVEs. ([#242](https://github.com/hashicorp/terraform-provider-null/issues/242))
+
 ## 3.2.1 (November 17, 2022)
 
 BUG FIXES:
