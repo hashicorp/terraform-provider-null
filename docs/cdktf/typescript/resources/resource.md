@@ -11,7 +11,7 @@ description: |-
 
 # null_resource
 
-The `nullResource` resource implements the standard resource lifecycle but takes no further action. On Terraform 1.4 and later, use the [terraform_data resource type](https://developer.hashicorp.com/terraform/language/resources/terraform-data) instead.
+The `null_resource` resource implements the standard resource lifecycle but takes no further action. On Terraform 1.4 and later, use the [terraform_data resource type](https://developer.hashicorp.com/terraform/language/resources/terraform-data) instead.
 
 The `triggers` argument allows specifying an arbitrary set of values that, when changed, will cause the resource to be replaced.
 
@@ -86,4 +86,4 @@ class MyConvertedCode extends TerraformStack {
 - `id` (String) This is set to a random value at create time.
 
 
-<!-- cache-key: cdktf-0.19.0 input-63b48b841b04abe2967ff224f186b1f32a497a024e9fa833ce9444eccb45113e 556251879b8ed0dc4c87a76b568667e0ab5e2c46efdd14a05c556daf05678783-->
+<!-- cache-key: cdktf-0.20.0 input-63b48b841b04abe2967ff224f186b1f32a497a024e9fa833ce9444eccb45113e -->

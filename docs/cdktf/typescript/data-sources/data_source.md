@@ -13,10 +13,10 @@ description: |-
 
 # null_data_source
 
-The `nullDataSource` data source implements the standard data source lifecycle but does not
+The `null_data_source` data source implements the standard data source lifecycle but does not
 interact with any external APIs.
 
-Historically, the `nullDataSource` was typically used to construct intermediate values to re-use elsewhere in configuration. The
+Historically, the `null_data_source` was typically used to construct intermediate values to re-use elsewhere in configuration. The
 same can now be achieved using [locals](https://developer.hashicorp.com/terraform/language/values/locals) or the [terraform_data resource type](https://developer.hashicorp.com/terraform/language/resources/terraform-data) in Terraform 1.4 and later.
 
 ## Example Usage
@@ -116,4 +116,4 @@ class MyConvertedCode extends TerraformStack {
 - `random` (String) A random value. This is primarily for testing and has little practical use; prefer the [hashicorp/random provider](https://registry.terraform.io/providers/hashicorp/random) for more practical random number use-cases.
 
 
-<!-- cache-key: cdktf-0.19.0 input-c57aa183eb3faecd392a2666301466639e17a246180fc7127c0c9b366d16d65b 556251879b8ed0dc4c87a76b568667e0ab5e2c46efdd14a05c556daf05678783-->
+<!-- cache-key: cdktf-0.20.0 input-c57aa183eb3faecd392a2666301466639e17a246180fc7127c0c9b366d16d65b -->
