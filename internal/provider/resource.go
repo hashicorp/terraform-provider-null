@@ -34,10 +34,10 @@ func (n *nullResource) Metadata(ctx context.Context, req resource.MetadataReques
 
 func (n *nullResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: `The ` + "`null_resource`" + ` resource implements the standard resource lifecycle but takes no further action. ` +
-			`On Terraform 1.4 and later, use the [terraform_data resource type](https://developer.hashicorp.com/terraform/language/resources/terraform-data) instead.
-
-The ` + "`triggers`" + ` argument allows specifying an arbitrary set of values that, when changed, will cause the resource to be replaced.`,
+		Description: "The `null_resource` resource implements the standard resource lifecycle but takes no further action. " +
+			"On Terraform 1.4 and later, use the [`terraform_data` resource type](https://developer.hashicorp.com/terraform/language/resources/terraform-data) instead. " +
+			"Terraform 1.9 and later support the `moved` configuration block from `null_resource` to `terraform_data`.\n\n" +
+			"The `triggers` argument allows specifying an arbitrary set of values that, when changed, will cause the resource to be replaced.",
 		Attributes: map[string]schema.Attribute{
 			"triggers": schema.MapAttribute{
 				Description: "A map of arbitrary strings that, when changed, will force the null resource to be replaced, re-running any associated provisioners.",
