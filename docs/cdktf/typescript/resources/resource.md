@@ -5,13 +5,13 @@
 page_title: "null_resource Resource - terraform-provider-null"
 subcategory: ""
 description: |-
-  The null_resource resource implements the standard resource lifecycle but takes no further action. On Terraform 1.4 and later, use the terraform_data resource type https://developer.hashicorp.com/terraform/language/resources/terraform-data instead.
+  The null_resource resource implements the standard resource lifecycle but takes no further action. On Terraform 1.4 and later, use the terraform_data resource type https://developer.hashicorp.com/terraform/language/resources/terraform-data instead. Terraform 1.9 and later support the moved configuration block from null_resource to terraform_data.
   The triggers argument allows specifying an arbitrary set of values that, when changed, will cause the resource to be replaced.
 ---
 
 # null_resource
 
-The `null_resource` resource implements the standard resource lifecycle but takes no further action. On Terraform 1.4 and later, use the [terraform_data resource type](https://developer.hashicorp.com/terraform/language/resources/terraform-data) instead.
+The `null_resource` resource implements the standard resource lifecycle but takes no further action. On Terraform 1.4 and later, use the [`terraform_data` resource type](https://developer.hashicorp.com/terraform/language/resources/terraform-data) instead. Terraform 1.9 and later support the `moved` configuration block from `null_resource` to `terraform_data`.
 
 The `triggers` argument allows specifying an arbitrary set of values that, when changed, will cause the resource to be replaced.
 
@@ -86,4 +86,4 @@ class MyConvertedCode extends TerraformStack {
 - `id` (String) This is set to a random value at create time.
 
 
-<!-- cache-key: cdktf-0.20.1 input-63b48b841b04abe2967ff224f186b1f32a497a024e9fa833ce9444eccb45113e -->
+<!-- cache-key: cdktf-0.20.1 input-89ea6e8dae79e8917aacba471b3635623c77f324236527d549276a55d3fa9c13 -->
