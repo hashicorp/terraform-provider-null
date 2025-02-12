@@ -18,7 +18,7 @@ project "terraform-provider-null" {
   }
 }
 
-event "merge {
+event "merge" {
 }
 
 event "build" {
