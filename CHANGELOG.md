@@ -1,3 +1,9 @@
+## 3.2.4-alpha.1 (March 27, 2025)
+
+NOTES:
+
+* all: This release is being used to test new build and release actions.
+
 ## 3.2.3 (September 11, 2024)
 
 NOTES:
