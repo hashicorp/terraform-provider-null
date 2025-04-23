@@ -113,4 +113,4 @@ changie batch 3.2.4 && changie merge
 
 ## License
 
-[Mozilla Public License v2.0](./LICENSE)
+- [Mozilla Public License v2.0](./LICENSE)
