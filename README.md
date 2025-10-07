@@ -5,7 +5,7 @@ The Null provider is a rather-unusual provider that has constructs that intentio
 ## Requirements
 
 * [Terraform](https://www.terraform.io/downloads)
-* [Go](https://go.dev/doc/install) (1.23)
+* [Go](https://go.dev/doc/install) (1.24)
 * [GNU Make](https://www.gnu.org/software/make/)
 * [golangci-lint](https://golangci-lint.run/usage/install/#local-installation) (optional)
 
