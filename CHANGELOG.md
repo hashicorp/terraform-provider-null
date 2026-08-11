@@ -1,3 +1,9 @@
+## 3.3.1 (August 11, 2026)
+
+NOTES:
+
+* Dependency updates ([#506](https://github.com/hashicorp/terraform-provider-null/issues/506))
+
 ## 3.3.0 (May 12, 2026)
 
 ENHANCEMENTS:
