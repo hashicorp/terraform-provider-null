@@ -29,7 +29,7 @@ jobs:
           go-version-file: 'go.mod'
 
       - name: Run linters
-        uses: golangci/golangci-lint-action@3de4be9e74f1eeccc4a6da5724de59f11f9b562f # v9.3.0
+        uses: golangci/golangci-lint-action@2ed87efab0c1bbbddf4cd4fefd987526992c9cdf # v9.3.0
         with:
           version: latest
 
