@@ -4,6 +4,12 @@ NOTES:
 
 * Upgrade the Go toolchain to 1.26.8. ([#520](https://github.com/hashicorp/terraform-provider-null/issues/520))
 
+## 3.3.1 (August 14, 2026)
+
+NOTES:
+
+* Dependency updates ([#506](https://github.com/hashicorp/terraform-provider-null/issues/506))
+
 ## 3.3.0 (May 12, 2026)
 
 ENHANCEMENTS:
